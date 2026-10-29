@@ -1,0 +1,73 @@
+/* Terminal Noir ve Mission Control Stilleri */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #030712;
+}
+
+code, pre, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Ekran Geçişleri */
+.screen {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+.screen.active {
+  display: flex !important;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Profil Seçici Kartları */
+.profile-btn.active {
+  border-color: #f59e0b !important;
+  background-color: rgba(245, 158, 11, 0.12) !important;
+  color: #fcd34d !important;
+}
+
+/* Protokol Kartları */
+.protocol-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.protocol-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.05), transparent);
+  transition: 0.5s;
+}
+
+.protocol-card:hover::after {
+  left: 100%;
+}
+
+/* Kriz Anı Hafif Glitch Efekti */
+@keyframes screenGlitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 1px) }
+  40% { transform: translate(2px, -1px) }
+  60% { transform: translate(-1px, 2px) }
+  80% { transform: translate(1px, -1px) }
+  100% { transform: translate(0) }
+}
+
+.glitch-active {
+  animation: screenGlitch 0.25s ease;
+}
+
+/* Kaydırma Çubuğu */
+#appContainer::-webkit-scrollbar {
+  width: 3px;
+}
+#appContainer::-webkit-scrollbar-thumb {
+  background: #1f2c47;
+  border-radius: 3px;
+}

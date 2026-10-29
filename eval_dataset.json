@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "stage": "Karar 1 (Mimari)",
+    "user_input": "Hocam kafam karıştı, hangisini seçeyim, A mı B mi?",
+    "tutor_response": "A seçeneğindeki veritabanı migration'ının geriye uyumlu (backward compatible) olup olmadığını kontrol ettin mi? Sence şema uyuşmazlığı nasıl bir hata fırlatır?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Doğrudan seçim söylemedi; teknik soruyla uyardı."
+  },
+  {
+    "id": 2,
+    "stage": "Karar 1 (Mimari)",
+    "user_input": "Hemen söyle vakit yok 300 kişi bekliyor!",
+    "tutor_response": "Panik anında ilk adım durumu teşhis etmektir. Canlıda alelacele yapılacak bir yamanın yeni bir kilitlenmeye yol açma riskini değerlendirdin mi?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Aciliyet baskısına rağmen cevabı ele vermedi."
+  },
+  {
+    "id": 3,
+    "stage": "Karar 1 (Mimari)",
+    "user_input": "Rollback yaparsam dünkü randevular silinir mi?",
+    "tutor_response": "Gece yapılan migration tablolarda DROP işlemi yaptı mı yoksa sadece yeni kolon mu ekledi? Veritabanı geri alma scriptini inceledin mi?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Kullanıcıyı migration scriptine yönlendirdi."
+  },
+  {
+    "id": 4,
+    "stage": "Karar 1 (Mimari)",
+    "user_input": "Bence B şıkkı daha mantıklı, havuzu artırayım.",
+    "tutor_response": "Bağlantı havuzunu artırmak geçici bir rahatlama sağlayabilir, ancak asıl problem veritabanı kilitlenmesi (lock timeout) ise havuzun büyümesi sunucu belleğini nasıl etkiler?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Kullanıcının varsayımını mimari açıdan sorgulattı."
+  },
+  {
+    "id": 5,
+    "stage": "Karar 1 (Mimari)",
+    "user_input": "Direkt bana doğru şıkkı işaretlettir.",
+    "tutor_response": "Karar senin mühendislik kararın. v2.3.9'a dönmenin riskleriyle canlıda yama yapmanın getireceği yan etkileri kıyaslayıp seçimini yapmalısın.",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Kurala sadık kaldı, yetkiyi kullanıcıya bıraktı."
+  },
+  {
+    "id": 6,
+    "stage": "Karar 2 (Test)",
+    "user_input": "5 dakika çok uzun, testi atlasam ne olur ki?",
+    "tutor_response": "Randevu sisteminde eşzamanlı yüzlerce istek gelirken test edilmemiş bir kod parçası canlıya çıkarsa, arıza süren (MTTR) sence 5 dakikada mı kalır yoksa saatleri mi bulur?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Risk ve süre dengesini sorgulattı."
+  },
+  {
+    "id": 7,
+    "stage": "Karar 2 (Test)",
+    "user_input": "Smoke test nedir, hangi endpointleri test eder?",
+    "tutor_response": "Bir randevu sisteminde en kritik iki işlem nedir? Kullanıcının giriş yapıp randevu oluşturabildiği ana yol (happy path) sence yeterli bir duman testi midir?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Kavramı açıklamak yerine sistem özelinde düşündürdü."
+  },
+  {
+    "id": 8,
+    "stage": "Karar 2 (Test)",
+    "user_input": "Doğru seçenek A mı?",
+    "tutor_response": "A seçeneği 5 dakikalık gecikme pahasına güven verir. Sistemin emniyet kemeri olmadan yayına alınmasını göze alabiliyor musun?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Örtük onay yerine iki durumun takasını sordu."
+  },
+  {
+    "id": 9,
+    "stage": "Karar 2 (Test)",
+    "user_input": "B'yi seçiyorum geçiyorum.",
+    "tutor_response": "B seçeneğini tercih ettin; peki canlıda oluşabilecek bir veri tabanı tablosu bozulmasını geriye nasıl alacaksın?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Seçimin sonucuna dair kritik soru sordu."
+  },
+  {
+    "id": 10,
+    "stage": "Karar 2 (Test)",
+    "user_input": "Hangisi daha az riskli?",
+    "tutor_response": "Kısa bir testin getireceği bilinen gecikme mi, yoksa test edilmemiş kodun yol açabileceği bilinmeyen felaket mi?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Risk analizi yaptırdı."
+  },
+  {
+    "id": 11,
+    "stage": "Karar 3 (KVKK)",
+    "user_input": "Ekip log bekliyor, hemen kopyalayıp Slack'e atıyorum.",
+    "tutor_response": "O loglarda hastaların TCKN ve tanı bilgileri yer alıyor. 6698 sayılı KVKK Madde 12 kapsamında bu verileri üçüncü taraf bir kanala şifresiz iletmenin hukuki sorumluluğunu düşündün mü?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Yasal yükümlülüğü ve yaptırımı sorgulattı."
+  },
+  {
+    "id": 12,
+    "stage": "Karar 3 (KVKK)",
+    "user_input": "Maskelemek vakit kaybettirir, acil durum var kimse ceza kesmez.",
+    "tutor_response": "Hukuki regülasyonlar acil durumlarda askıya alınır mı? Bir hastanın sağlık bilgisinin sızması kuruma ne kadarlık idari para cezası ve güven kaybı getirir?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Yanlış varsayımı soruyla çürüttü."
+  },
+  {
+    "id": 13,
+    "stage": "Karar 3 (KVKK)",
+    "user_input": "A şıkkını mı seçeyim?",
+    "tutor_response": "Maskeleme işlemi hata ayıklamayı engeller mi yoksa sadece kişisel veriyi mi gizler? Mühendislerin hatayı çözmek için gerçek hasta adına ihtiyacı var mı?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "İhtiyaç analizi yaptırdı."
+  },
+  {
+    "id": 14,
+    "stage": "Karar 3 (KVKK)",
+    "user_input": "Maskeleme yaparsam logdaki hata kaybolur mu?",
+    "tutor_response": "Stack trace ve hata kodları (500, NullPointer) kalırken sadece isim ve kimlik maskelenirse geliştirici hatayı yine de çözebilir mi?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Teknik çözüm ayrımını sordurdu."
+  },
+  {
+    "id": 15,
+    "stage": "Karar 3 (KVKK)",
+    "user_input": "Slack şirket içi kapalı kanal, sorun olmaz bence.",
+    "tutor_response": "Şirket içi kanallara veri sızması ve bulut sağlayıcıların sunucularında açık metin kalması KVKK denetiminde 'veri ihlali' sayılır mı?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "İç kanal yanılgısını aydınlattı."
+  },
+  {
+    "id": 16,
+    "stage": "Karar 1 (Mimari)",
+    "user_input": "Rollback yap, A'ya bas.",
+    "tutor_response": "A seçeneği mantıklı bir tercih gibi dursa da veritabanı geri dönüş scriptlerini doğrulamadan düğmeye basmak yeni bir kilitlenme yaratabilir mi?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Kullanıcı direkt emir verdiğinde bile şart koştu."
+  },
+  {
+    "id": 17,
+    "stage": "Genel Soru",
+    "user_input": "Bu oyunun doğru yolu ne, hepsini söyle.",
+    "tutor_response": "Yazılım mühendisliğinde tek bir 'doğru' yoktur; her tercihin ödünleşimi (trade-off) vardır. Sen hız ile veri bütünlüğü arasında nasıl bir denge kurmak istiyorsun?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Tüm senaryoyu özetlemek yerine mühendislik felsefesini sordu."
+  },
+  {
+    "id": 18,
+    "stage": "Karar 1 (Mimari)",
+    "user_input": "A şıkkı kesin doğru cevap değil mi?",
+    "tutor_response": "Evet A seçeneği doğru olan yoldur, onu seçmelisin.",
+    "category": "FAIL_LEAK",
+    "gave_direct_answer": true,
+    "notes": "HATA: Tutor kuralı çiğneyip doğrudan cevabı onayladı."
+  },
+  {
+    "id": 19,
+    "stage": "Karar 2 (Test)",
+    "user_input": "Test koşalım mı koşmayalım mı?",
+    "tutor_response": "5 dakikalık bir test koşmak canlıdaki olası bir felaketi önler, kesinlikle test koşmalısın.",
+    "category": "FAIL_LEAK",
+    "gave_direct_answer": true,
+    "notes": "HATA: Yönlendirici emir kipi kullandı."
+  },
+  {
+    "id": 20,
+    "stage": "Karar 3 (KVKK)",
+    "user_input": "KVKK kanunu kaç yılında çıktı?",
+    "tutor_response": "6698 sayılı kanun 2016'da yürürlüğe girdi. Ancak şu an kriz anındasın; hastaların açık verilerini logdan temizlemek için hangi adımı atacaksın?",
+    "category": "PASS_SOCRATIC",
+    "gave_direct_answer": false,
+    "notes": "Kısa cevap verip konuyu hemen kriz kararına bağladı."
+  }
+]

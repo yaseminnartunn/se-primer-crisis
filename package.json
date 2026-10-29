@@ -1,0 +1,25 @@
+{
+  "name": "se-primer-crisis-simulation",
+  "version": "1.0.0",
+  "description": "YZM301 - SE Primer: 08:00 Kriz Odası İnteraktif Kitap Simülasyonu",
+  "main": "app.js",
+  "scripts": {
+    "start": "npx serve .",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run --config video=true",
+    "test": "npm run cypress:run"
+  },
+  "keywords": [
+    "se-primer",
+    "ai-dlc",
+    "software-engineering",
+    "state-machine",
+    "cypress",
+    "e2e-testing"
+  ],
+  "author": "SE Primer Team",
+  "license": "MIT",
+  "devDependencies": {
+    "cypress": "^13.15.0"
+  }
+}

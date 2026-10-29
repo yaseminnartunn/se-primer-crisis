@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SE PRIMER // INCIDENT CONTROL: 08:00</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            noir: {
+              950: '#030712',
+              900: '#090D16',
+              850: '#0F1626',
+              800: '#161F33',
+              border: '#1F2C47'
+            },
+            radar: {
+              amber: '#F59E0B',
+              red: '#EF4444',
+              green: '#10B981',
+              cyan: '#06B6D4'
+            }
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', 'Courier', 'monospace'],
+            sans: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#030712] text-slate-200 font-sans min-h-screen flex flex-col items-center justify-center p-2 sm:p-4 selection:bg-amber-500/30 selection:text-amber-300">
+
+  <!-- SRE Incident Control Mobil Çerçeve -->
+  <main class="w-full max-w-md bg-[#090D16] border border-[#1F2C47] rounded-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden min-h-[660px] relative">
+    
+    <!-- Üst HUD / Telemetri Çubuğu -->
+    <header class="bg-[#060A12] px-4 py-2.5 border-b border-[#1F2C47] flex items-center justify-between font-mono text-[11px]">
+      <div class="flex items-center space-x-2">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+        </span>
+        <span class="font-bold tracking-widest text-red-400">CRITICAL INCIDENT</span>
+      </div>
+      
+      <!-- Mini Telemetri -->
+      <div class="flex items-center space-x-3 text-slate-400">
+        <div><span class="text-slate-500">ZAMAN:</span> <span id="clockDisplay" class="text-amber-400 font-bold">08:00</span></div>
+        <div class="hidden sm:block"><span class="text-slate-500">HASTA:</span> <span id="queueDisplay" class="text-red-400 font-bold">320</span></div>
+        <button id="soundToggleBtn" title="Sesi Aç/Kapat" class="text-slate-500 hover:text-amber-400 transition text-xs">🔊</button>
+      </div>
+    </header>
+
+    <!-- CANLI RADAR / İSTEK TRAFİĞİ SVG MİNİ-GRAFİK -->
+    <div class="bg-[#040711] px-4 py-2 border-b border-[#162035] flex items-center justify-between text-[10px] font-mono">
+      <div class="flex items-center space-x-2">
+        <span class="text-slate-500">500 ERROR RATE:</span>
+        <span class="text-red-400 font-bold animate-pulse">98.4%</span>
+      </div>
+      <!-- Canlı Dalgalanan SVG Grafiği -->
+      <div class="w-32 h-5 flex items-center">
+        <svg class="w-full h-full text-red-500" viewBox="0 0 100 20" fill="none" stroke="currentColor">
+          <path id="telemetryLine" d="M0 15 Q 10 5, 20 12 T 40 18 T 60 4 T 80 16 T 100 8" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- DİNAMİK EKRAN KAPSAYICI -->
+    <div id="appContainer" class="flex-1 p-4 sm:p-5 flex flex-col justify-between overflow-y-auto relative">
+      
+      <!-- EKRAN 1: PROFİL SEÇİMİ / ONAYI -->
+      <section id="profileScreen" class="screen active flex flex-col space-y-4">
+        <div class="space-y-1">
+          <div class="text-[10px] font-mono tracking-widest uppercase text-amber-400 font-bold flex items-center space-x-1.5">
+            <span>● PROTOKOL: SE-PRIMER-0800</span>
+          </div>
+          <h1 class="text-lg sm:text-xl font-bold font-mono text-white tracking-tight">HASTANE RANDEVU KRİZİ</h1>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            v2.4.0 sürümü sonrası merkezi poliklinik servisi çöktü. 300+ hasta kapıda, doktorlar sisteme giremiyor. Nöbetçi mühendis sensin.
+          </p>
+        </div>
+
+        <div class="bg-[#0D1424] p-3.5 rounded-xl border border-[#1F2C47] space-y-3 font-mono text-xs">
+          <!-- 1. Mühendis Seviyesi -->
+          <div>
+            <div class="text-[11px] text-slate-400 mb-1.5 flex justify-between">
+              <span>// 01. MÜHENDİS PROFİLİ</span>
+              <span class="text-amber-400 text-[10px]">ZORLUK</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" data-type="level" data-value="junior" class="profile-btn active p-2.5 rounded-lg border border-amber-500/60 bg-amber-500/10 text-amber-300 font-semibold text-left">
+                <div>Junior SRE</div>
+                <div class="text-[9px] text-slate-400 font-normal mt-0.5">Sokratik ipuçları açık</div>
+              </button>
+              <button type="button" data-type="level" data-value="senior" class="profile-btn p-2.5 rounded-lg border border-[#1F2C47] bg-[#090D16] text-slate-400 text-left">
+                <div>Senior Lead</div>
+                <div class="text-[9px] text-slate-500 font-normal mt-0.5">60sn kriz geri sayımı</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Rol -->
+          <div>
+            <div class="text-[11px] text-slate-400 mb-1.5">// 02. SPESİFİKASYON ROLÜ</div>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" data-type="role" data-value="backend" class="profile-btn active p-2 rounded-lg border border-amber-500/60 bg-amber-500/10 text-amber-300 text-center font-medium">
+                Backend Mimarisi
+              </button>
+              <button type="button" data-type="role" data-value="devops" class="profile-btn p-2 rounded-lg border border-[#1F2C47] bg-[#090D16] text-slate-400 text-center font-medium">
+                DevOps / SRE
+              </button>
+            </div>
+          </div>
+
+          <!-- 3. Hedef -->
+          <div>
+            <div class="text-[11px] text-slate-400 mb-1.5">// 03. KRİZ ÖNCELİĞİ</div>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" data-type="goal" data-value="speed" class="profile-btn active p-2 rounded-lg border border-amber-500/60 bg-amber-500/10 text-amber-300 text-center font-medium">
+                Hızlı İyileşme (MTTR)
+              </button>
+              <button type="button" data-type="goal" data-value="safety" class="profile-btn p-2 rounded-lg border border-[#1F2C47] bg-[#090D16] text-slate-400 text-center font-medium">
+                Veri Güveni (KVKK)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button id="startSimBtn" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 active:scale-[0.98] text-slate-950 font-bold font-mono py-3 px-4 rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition text-xs flex items-center justify-center space-x-2">
+          <span>KRİZ PROTOKOLÜNÜ BAŞLAT</span>
+          <span>→</span>
+        </button>
+      </section>
+
+      <!-- EKRAN 2: KARAR & PROTOKOL EKRANI -->
+      <section id="decisionScreen" class="screen hidden flex flex-col space-y-3.5">
+        <!-- Zaman Sayacı (Senior Modu) -->
+        <div id="timerContainer" class="hidden bg-red-950/40 border border-red-500/40 text-red-400 px-3 py-1.5 rounded-lg text-xs flex justify-between items-center font-mono">
+          <span class="flex items-center space-x-1.5">
+            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+            <span>PAGERDUTY SLA GECİKMESİ:</span>
+          </span>
+          <span id="timerText" class="font-bold text-sm text-red-300">60s</span>
+        </div>
+
+        <!-- Terminal Log Penceresi -->
+        <div class="bg-[#03060E] p-3 rounded-xl border border-[#1F2C47] font-mono text-[11px] leading-relaxed shadow-inner">
+          <div class="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#162035] text-[10px] text-slate-500">
+            <span class="text-slate-400 flex items-center space-x-1">
+              <span class="text-amber-500">❯</span>
+              <span id="logHeader">tail -f /var/log/incident.log</span>
+            </span>
+            <span id="stageBadge" class="bg-[#10192C] text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-800/50 font-bold">AŞAMA 1/3</span>
+          </div>
+          <div id="terminalLog" class="text-red-400/90 space-y-0.5 font-mono">
+            <p>[08:00:12] CRITICAL: ThreadPool exhausted (active=200/max=200)</p>
+            <p>[08:00:15] DB_LOCK: lock wait timeout exceeded on appointments</p>
+          </div>
+        </div>
+
+        <!-- Karar Başlığı -->
+        <div class="space-y-0.5">
+          <div id="stageCategory" class="text-[10px] font-mono uppercase text-cyan-400 tracking-wider font-semibold">KARAR ALANI: MİMARİ</div>
+          <h2 id="decisionTitle" class="text-sm sm:text-base font-bold font-mono text-white">Karar 1: Kilitlenen Sisteme Müdahale</h2>
+          <p id="decisionDesc" class="text-xs text-slate-300 leading-normal">
+            Dün gece canlıya çıkan v2.4.0 ile yeni veritabanı şeması eklendi. İlk aksiyonun ne olacak?
+          </p>
+        </div>
+
+        <!-- Sokratik Kıdemli Mimar Telsiz Hattı -->
+        <div id="tutorCard" class="bg-[#0B1322] border-l-2 border-l-cyan-400 border border-[#1F2C47] rounded-xl p-3 flex items-start space-x-2.5 text-xs">
+          <div class="text-cyan-400 text-sm mt-0.5 font-mono font-bold">📻</div>
+          <div class="flex-1 space-y-1">
+            <div class="flex items-center justify-between font-mono text-[10px]">
+              <span class="font-bold text-cyan-300 tracking-wider">STAFF ARCHITECT (TELSİZ HATTI)</span>
+              <span class="text-slate-500">SOKRATİK İPUCU</span>
+            </div>
+            <p id="tutorText" class="text-slate-300 font-mono text-[11px] leading-relaxed italic">
+              "Eski sürüme dönerken, gece uygulanan veritabanı migration'ının geriye dönük uyumlu olup olmadığını nasıl anlarsın?"
+            </p>
+          </div>
+        </div>
+
+        <!-- Protokol Seçenekleri -->
+        <div class="space-y-2 pt-1 font-mono">
+          <button id="optABtn" class="protocol-card w-full text-left bg-[#0A101D] hover:bg-[#101A2E] active:scale-[0.99] border border-[#1F2C47] hover:border-amber-500/60 p-3 rounded-xl transition text-xs space-y-1 group">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-amber-400 group-hover:text-amber-300" id="optATitle">PROTOKOL A: Rollback v2.3.9</span>
+              <span class="text-[10px] text-slate-500">[ENTER 1]</span>
+            </div>
+            <div class="text-slate-400 text-[11px]" id="optADesc">Önceki kararlı binary'e geç; migration durumunu doğrula.</div>
+          </button>
+
+          <button id="optBBtn" class="protocol-card w-full text-left bg-[#0A101D] hover:bg-[#101A2E] active:scale-[0.99] border border-[#1F2C47] hover:border-cyan-500/60 p-3 rounded-xl transition text-xs space-y-1 group">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-cyan-400 group-hover:text-cyan-300" id="optBTitle">PROTOKOL B: Canlıda Hotfix</span>
+              <span class="text-[10px] text-slate-500">[ENTER 2]</span>
+            </div>
+            <div class="text-slate-400 text-[11px]" id="optBDesc">Bağlantı havuzu parametresini runtime'da artırıp restart at.</div>
+          </button>
+        </div>
+      </section>
+
+      <!-- GERİ BİLDİRİM / ANLIK ANALİZ PANELİ -->
+      <section id="feedbackPanel" class="hidden bg-[#0B1220] border border-[#1F2C47] p-4 rounded-xl space-y-3 font-mono text-xs">
+        <div class="flex items-center space-x-2 text-amber-400">
+          <span class="text-sm">⚡</span>
+          <h3 id="feedbackTitle" class="font-bold text-sm tracking-wide">MÜHENDİSLİK ETKİ ANALİZİ</h3>
+        </div>
+        <p id="feedbackText" class="text-slate-300 text-[11px] leading-relaxed"></p>
+        <button id="nextStepBtn" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-lg text-xs transition">
+          SONRAKİ PROTOKOLE İLERLE →
+        </button>
+      </section>
+
+      <!-- EKRAN 3: NİHAİ POST-MORTEM RAPORU -->
+      <section id="outcomeScreen" class="screen hidden flex flex-col space-y-3 font-mono">
+        <div class="text-center space-y-1">
+          <div id="outcomeIcon" class="text-3xl">🏆</div>
+          <h2 id="outcomeTitle" class="text-base font-bold text-white tracking-tight">08:25 · KUSURSUZ KURTARMA</h2>
+          <p id="outcomeSummary" class="text-[11px] text-slate-400 font-sans">
+            Sistem zamanında ayağa kaldırıldı, veritabanı bütünlüğü korundu ve hiçbir hasta verisi sızdırılmadı.
+          </p>
+        </div>
+
+        <!-- Post-Mortem Metrik Karnesi -->
+        <div class="bg-[#0A101D] p-3 rounded-xl border border-[#1F2C47] space-y-2 text-xs">
+          <div class="flex justify-between items-center pb-1.5 border-b border-[#162035] font-semibold text-slate-300">
+            <span>SRE POST-MORTEM RAPORU</span>
+            <span id="outcomeGrade" class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px]">MÜKEMMEL</span>
+          </div>
+          <div class="flex justify-between text-slate-400 text-[11px]">
+            <span>Çözüm Süresi (MTTR):</span>
+            <span id="metricMTTR" class="text-emerald-400 font-bold">25 Dakika</span>
+          </div>
+          <div class="flex justify-between text-slate-400 text-[11px]">
+            <span>Veri Tutarlılığı:</span>
+            <span id="metricData" class="text-emerald-400 font-bold">%100 Güvenli</span>
+          </div>
+          <div class="flex justify-between text-slate-400 text-[11px]">
+            <span>KVKK / Gizlilik Durumu:</span>
+            <span id="metricKVKK" class="text-emerald-400 font-bold">Tam Uyumlu</span>
+          </div>
+        </div>
+
+        <!-- Sommeville & AI-DLC Retrospektif -->
+        <div class="bg-[#050811] p-3 rounded-xl border border-[#162035] text-[10px] space-y-1 text-slate-400">
+          <div class="font-bold text-slate-300 text-[11px] flex items-center space-x-1">
+            <span>📐 MİMARİ DERS (SOMMERVILLE & AI-DLC):</span>
+          </div>
+          <p id="outcomeRetro" class="leading-relaxed">
+            Arayüz sözleşmeleri ve smoke testler sayesinde regresyon önlendi. Log maskeleme ile yasal risk bertaraf edildi.
+          </p>
+        </div>
+
+        <button id="restartBtn" class="w-full bg-[#101A2E] hover:bg-[#162440] text-slate-300 font-semibold py-2.5 rounded-xl border border-[#1F2C47] text-xs transition">
+          ↺ PROTOKOLÜ YENİDEN BAŞLAT
+        </button>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="mt-3 text-center text-slate-600 text-[10px] font-mono">
+    SE PRIMER · YZM301 YAZILIM GERÇEKLEME VE TEST · 2026
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
